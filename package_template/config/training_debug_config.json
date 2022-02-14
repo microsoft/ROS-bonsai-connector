@@ -1,0 +1,60 @@
+[
+    {
+      "type": "EpisodeStart",
+      "session_id": "SESSION_ID",
+      "sequence_id": 2,
+      "episode_start": {
+        "config": {}
+      }
+    },
+    {
+      "type": "EpisodeStep",
+      "session_id": "SESSION_ID",
+      "sequence_id": 3,
+      "episode_step": {
+        "action": {
+          "action1": 0.1
+        }
+      }
+    },
+    {
+      "type": "EpisodeStep",
+      "session_id": "SESSION_ID",
+      "sequence_id": 4,
+      "episode_step": {
+        "action": {
+          "action1": 0.0
+        }
+      }
+    },
+    {
+      "type": "EpisodeStep",
+      "session_id": "SESSION_ID",
+      "sequence_id": 5,
+      "episode_step": {
+        "action": {
+          "action1": -0.1
+        }
+      }
+    },
+    {
+      "type": "EpisodeStep",
+      "session_id": "SESSION_ID",
+      "sequence_id": 6,
+      "episode_step": {
+        "action": {
+          "action1": 0.1
+        }
+      }
+    },
+    {
+      "type": "EpisodeFinish",
+      "session_id": "SESSION_ID",
+      "sequence_id": 7,
+      "episode_step": {
+        "action": {
+          "action1": 0.1
+        }
+      }
+    }
+  ]

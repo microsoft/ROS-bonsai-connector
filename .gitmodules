@@ -1,0 +1,12 @@
+[submodule "samples/sample_worlds/aws-robomaker-small-house-world"]
+	path = samples/sample_worlds/aws-robomaker-small-house-world
+	url = https://github.com/aws-robotics/aws-robomaker-small-house-world.git
+[submodule "samples/sample_worlds/aws-robomaker-bookstore-world"]
+	path = samples/sample_worlds/aws-robomaker-bookstore-world
+	url = https://github.com/aws-robotics/aws-robomaker-bookstore-world.git
+[submodule "samples/sample_worlds/aws-robomaker-racetrack-world"]
+	path = samples/sample_worlds/aws-robomaker-racetrack-world
+	url = https://github.com/aws-robotics/aws-robomaker-racetrack-world.git
+[submodule "samples/sample_worlds/aws-robomaker-small-warehouse-world"]
+	path = samples/sample_worlds/aws-robomaker-small-warehouse-world
+	url = https://github.com/aws-robotics/aws-robomaker-small-warehouse-world.git

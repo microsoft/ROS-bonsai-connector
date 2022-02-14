@@ -1,0 +1,524 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/microsoft-bonsai-api/main/Reference/siminterface.schema.json",
+    "name": "cartpole",
+    "timeout": 60,
+    "description": {
+      "config": {
+        "category": "Struct",
+        "fields": [
+          {
+            "name": "initial_pose_x",
+            "type": {
+              "category": "Number",
+              "comment": "x coordinate of initial position (UNUSED)"
+            }
+          },
+          {
+            "name": "initial_pose_y",
+            "type": {
+              "category": "Number",
+              "comment": "y coordinate of initial position (UNUSED)"
+            }
+          },
+          {
+            "name": "goal_pose_x",
+            "type": {
+              "category": "Number",
+              "comment": "x coordinate of target position"
+            }
+          },
+          {
+            "name": "goal_pose_y",
+            "type": {
+              "category": "Number",
+              "comment": "y coordinate of target position"
+            }
+          },
+          {
+            "name": "sample_range",
+            "type": {
+              "category": "Number",
+              "comment": "1 sample is a range of 0.0174 rad (max 360)"
+            }
+          }
+        ]
+      },
+      "action": {
+        "category": "Struct",
+        "fields": [
+            {
+              "name": "input_angular_velocity_x",
+              "type": {
+                "category": "Number",
+                "start": -1,
+                "stop": 1,
+                "comment": "commanded x-axis angular velocity in rad/s"
+              }
+            },
+            {
+              "name": "input_angular_velocity_y",
+              "type": {
+                  "category": "Number",
+                  "start": -1,
+                  "stop": 1,
+                  "comment": "commanded y-axis angular velocity in rad/s"
+              }
+            },
+            {
+              "name": "input_angular_velocity_z",
+              "type": {
+                  "category": "Number",
+                  "start": -1,
+                  "stop": 1,
+                  "comment": "commanded z-axis angular velocity in rad/s (bot rotation on surface)"
+              }
+            },
+            {
+              "name": "input_linear_velocity_x",
+              "type": {
+                "category": "Number",
+                "start": 0,
+                "stop": 1,
+                "comment": "commanded x-axis linear velocity in m/s (forwards and back movements)"
+              }
+            },
+            {
+              "name": "input_linear_velocity_y",
+              "type": {
+                  "category": "Number",
+                  "start": -1,
+                  "stop": 1,
+                  "comment": "commanded y-axis linear velocity in m/s"
+              }
+            },
+            {
+              "name": "input_linear_velocity_z",
+              "type": {
+                  "category": "Number",
+                  "start": -1,
+                  "stop": 1,
+                  "comment": "commanded z-axis linear velocity in m/s"
+              }
+            }
+        ]
+      },
+      "state": {
+        "category": "Struct",
+        "fields": [
+          {
+            "name": "angular_velocity_x",
+            "type": {
+              "category": "Number",
+              "comment": "x-axis angular velocity in rad/s"
+            }
+          },
+          {
+            "name": "angular_velocity_y",
+            "type": {
+                "category": "Number",
+                "comment": "y-axis angular velocity in rad/s"
+            }
+          },
+          {
+            "name": "angular_velocity_z",
+            "type": {
+                "category": "Number",
+                "comment": "z-axis angular velocity in rad/s"
+            }
+          },
+          {
+            "name": "linear_velocity_x",
+            "type": {
+              "category": "Number",
+              "comment": "x-axis linear velocity in m/s"
+            }
+          },
+          {
+            "name": "linear_velocity_y",
+            "type": {
+                "category": "Number",
+                "comment": "y-axis linear velocity in m/s"
+            }
+          },
+          {
+            "name": "linear_velocity_z",
+            "type": {
+                "category": "Number",
+                "comment": "z-axis linear velocity in m/s"
+            }
+          },
+          {
+            "name": "last_odometry_position_x",
+            "type": {
+                "category": "Number",
+                "comment": "previous x position estimate in free space"
+            }
+          },
+          {
+            "name": "last_odometry_position_y",
+            "type": {
+                "category": "Number",
+                "comment": "previous y position estimate in free space"
+            }
+          },
+          {
+            "name": "last_odometry_position_z",
+            "type": {
+                "category": "Number",
+                "comment": "previous z position estimate in free space"
+            }
+          },
+          {
+            "name": "odometry_position_x",
+            "type": {
+                "category": "Number",
+                "comment": "x position estimate in free space"
+            }
+          },
+          {
+            "name": "odometry_position_y",
+            "type": {
+                "category": "Number",
+                "comment": "y position estimate in free space"
+            }
+          },
+          {
+            "name": "odometry_position_z",
+            "type": {
+                "category": "Number",
+                "comment": "z position estimate in free space"
+            }
+          },
+          {
+            "name": "last_odometry_orientation_x",
+            "type": {
+                "category": "Number",
+                "comment": "previous quaternion x orientation estimate in free space"
+            }
+          },
+          {
+            "name": "last_odometry_orientation_y",
+            "type": {
+                "category": "Number",
+                "comment": "previous quaternion y orientation estimate in free space"
+            }
+          },
+          {
+            "name": "last_odometry_orientation_z",
+            "type": {
+                "category": "Number",
+                "comment": "previous quaternion z orientation estimate in free space"
+            }
+          },
+          {
+            "name": "last_odometry_orientation_w",
+            "type": {
+                "category": "Number",
+                "comment": "previous quaternion w orientation estimate in free space"
+            }
+          },
+          {
+            "name": "odometry_orientation_x",
+            "type": {
+                "category": "Number",
+                "comment": "quaternion x orientation estimate in free space"
+            }
+          },
+          {
+            "name": "odometry_orientation_y",
+            "type": {
+                "category": "Number",
+                "comment": "quaternion y orientation estimate in free space"
+            }
+          },
+          {
+            "name": "odometry_orientation_z",
+            "type": {
+                "category": "Number",
+                "comment": "quaternion z orientation estimate in free space"
+            }
+          },
+          {
+            "name": "odometry_orientation_w",
+            "type": {
+                "category": "Number",
+                "comment": "quaternion w orientation estimate in free space"
+            }
+          },
+          {
+            "name": "twist_linear_velocity_x",
+            "type": {
+                "category": "Number",
+                "comment": "estimated x linear velocity in free space (m/s)"
+            }
+          },
+          {
+            "name": "twist_linear_velocity_y",
+            "type": {
+                "category": "Number",
+                "comment": "estimated y linear velocity in free space (m/s)"
+            }
+          },
+          {
+            "name": "twist_linear_velocity_z",
+            "type": {
+                "category": "Number",
+                "comment": "estimated z linear velocity in free space (m/s)"
+            }
+          },
+          {
+            "name": "twist_angular_velocity_x",
+            "type": {
+                "category": "Number",
+                "comment": "estimated x angular velocity in free space (rad/s)"
+            }
+          },
+          {
+            "name": "twist_angular_velocity_y",
+            "type": {
+                "category": "Number",
+                "comment": "estimated y angular velocity in free space (rad/s)"
+            }
+          },
+          {
+            "name": "twist_angular_velocity_z",
+            "type": {
+                "category": "Number",
+                "comment": "estimated z angular velocity in free space (rad/s)"
+            }
+          },
+          {
+            "name": "last_imu_orientation_x",
+            "type": {
+                "category": "Number",
+                "comment": "previous IMU quaternion x orientation"
+            }
+          },
+          {
+            "name": ";ast_imu_orientation_y",
+            "type": {
+                "category": "Number",
+                "comment": "previous IMU quaternion y orientation"
+            }
+          },
+          {
+            "name": "last_imu_orientation_z",
+            "type": {
+                "category": "Number",
+                "comment": "previous IMU quaternion z orientation"
+            }
+          },
+          {
+            "name": "last_imu_orientation_w",
+            "type": {
+                "category": "Number",
+                "comment": "previous IMU quaternion w orientation"
+            }
+          },
+          {
+            "name": "imu_orientation_x",
+            "type": {
+                "category": "Number",
+                "comment": "IMU quaternion x orientation"
+            }
+          },
+          {
+            "name": "imu_orientation_y",
+            "type": {
+                "category": "Number",
+                "comment": "IMU quaternion y orientation"
+            }
+          },
+          {
+            "name": "imu_orientation_z",
+            "type": {
+                "category": "Number",
+                "comment": "IMU quaternion z orientation"
+            }
+          },
+          {
+            "name": "imu_orientation_w",
+            "type": {
+                "category": "Number",
+                "comment": "IMU quaternion w orientation"
+            }
+          },
+          {
+            "name": "imu_angular_velocity_x",
+            "type": {
+                "category": "Number",
+                "comment": "IMU x angular velocity (rad/s)"
+            }
+          },
+          {
+            "name": "imu_angular_velocity_y",
+            "type": {
+                "category": "Number",
+                "comment": "IMU y angular velocity (rad/s)"
+            }
+          },
+          {
+            "name": "imu_angular_velocity_z",
+            "type": {
+                "category": "Number",
+                "comment": "IMU z angular velocity (rad/s)"
+            }
+          },
+          {
+            "name": "imu_linear_acceleration_x",
+            "type": {
+                "category": "Number",
+                "comment": "IMU x linear acceleration (m/s^2)"
+            }
+          },
+          {
+            "name": "imu_linear_acceleration_y",
+            "type": {
+                "category": "Number",
+                "comment": "IMU y linear acceleration (m/s^2)"
+            }
+          },
+          {
+            "name": "imu_linear_acceleration_z",
+            "type": {
+                "category": "Number",
+                "comment": "IMU z linear acceleration (m/s^2)"
+            }
+          },
+          {
+            "name": "wheel_left_joint_position",
+            "type": {
+                "category": "Number",
+                "comment": "the position of the left wheel joint (rad or m)"
+            }
+          },
+          {
+            "name": "wheel_left_joint_velocity",
+            "type": {
+                "category": "Number",
+                "comment": "the velocity of the left wheel joint (rad/s or m/s)"
+            }
+          },
+          {
+            "name": "wheel_left_joint_effort",
+            "type": {
+                "category": "Number",
+                "comment": "the effort that is applied in the left wheel joint (Nm or N)"
+            }
+          },
+          {
+            "name": "wheel_right_joint_position",
+            "type": {
+                "category": "Number",
+                "comment": "the position of the right wheel joint (rad or m)"
+            }
+          },
+          {
+            "name": "wheel_right_joint_velocity",
+            "type": {
+                "category": "Number",
+                "comment": "the velocity of the right wheel joint (rad/s or m/s)"
+            }
+          },
+          {
+            "name": "wheel_right_joint_effort",
+            "type": {
+                "category": "Number",
+                "comment": "the effort that is applied in the right wheel joint (Nm or N)"
+            }
+          },
+          {
+            "name": "lidar_min_angle",
+            "type": {
+                "category": "Number",
+                "comment": "start angle of the scan (rad)"
+            }
+          },
+          {
+            "name": "lidar_max_angle",
+            "type": {
+                "category": "Number",
+                "comment": "end angle of the scan (rad)"
+            }
+          },
+          {
+            "name": "lidar_angle_increment",
+            "type": {
+                "category": "Number",
+                "comment": "angular distance between measurements (rad)"
+            }
+          },
+          {
+            "name": "lidar_time_increment",
+            "type": {
+                "category": "Number",
+                "comment": "time between measurements (s)"
+            }
+          },
+          {
+            "name": "lidar_scan_time",
+            "type": {
+                "category": "Number",
+                "comment": "time between scans (s)"
+            }
+          },
+          {
+            "name": "lidar_range_min",
+            "type": {
+                "category": "Number",
+                "comment": "minimum range value (m)"
+            }
+          },
+          {
+            "name": "lidar_range_max",
+            "type": {
+                "category": "Number",
+                "comment": "maximum range value (m)"
+            }
+          },
+          {
+            "name": "nearest_scan_range",
+            "type": {
+                "category": "Number",
+                "comment": "reports the scan data point closest to turtlebot (m)"
+            }
+          },
+          {
+            "name": "nearest_scan_radians",
+            "type": {
+                "category": "Number",
+                "comment": "reports the scan angle of data point closest to turtlebot (rad)"
+            }
+          },
+          {
+            "name": "last_scan_range",
+            "type": {
+                "category": "Number",
+                "comment": "reports the previous scan data point closest to turtlebot (m)"
+            }
+          },
+          {
+            "name": "last_scan_radians",
+            "type": {
+                "category": "Number",
+                "comment": "reports the previous scan angle data point closest to turtlebot (rad)"
+            }
+          },
+          {
+            "name": "goal_pose_x",
+            "type": {
+              "category": "Number",
+              "comment": "x coordinate of target position"
+            }
+          },
+          {
+            "name": "goal_pose_y",
+            "type": {
+              "category": "Number",
+              "comment": "y coordinate of target position"
+            }
+          }
+        ]
+      }
+    }
+  }

@@ -1,0 +1,49 @@
+[
+    {
+      "type": "EpisodeStart",
+      "session_id": "SESSION_ID",
+      "sequence_id": 2,
+      "episode_start": {
+        "config": {}
+      }
+    },
+    {
+      "type": "EpisodeStep",
+      "session_id": "SESSION_ID",
+      "sequence_id": 3,
+      "episode_step": {
+        "action": {
+          "input_angular_velocity_z": 0.1,
+          "input_linear_velocity_x": 0.1
+        }
+      }
+    },
+    {
+      "type": "EpisodeStep",
+      "session_id": "SESSION_ID",
+      "sequence_id": 3,
+      "episode_step": {
+        "action": {
+          "input_angular_velocity_z": 0.0,
+          "input_linear_velocity_x": 0.0
+        }
+      }
+    },
+    {
+      "type": "EpisodeStep",
+      "session_id": "SESSION_ID",
+      "sequence_id": 3,
+      "episode_step": {
+        "action": {
+          "input_angular_velocity_z": -0.1,
+          "input_linear_velocity_x": 0.1
+        }
+      }
+    },
+    {
+      "type": "EpisodeFinish",
+      "episodeFinish": {
+          "reason": "EpisodeComplete"
+      }
+    }
+]

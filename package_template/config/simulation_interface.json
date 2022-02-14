@@ -1,0 +1,43 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/microsoft-bonsai-api/main/Reference/siminterface.schema.json",
+    "name": "",
+    "timeout": 60,
+    "description": {
+      "config": {
+        "category": "Struct",
+        "fields": [
+          {
+            "name": "name",
+            "type": {
+              "category": "Number",
+              "comment": "description"
+            }
+          }
+        ]
+      },
+      "action": {
+        "category": "Struct",
+        "fields": [
+          {
+            "name": "name",
+            "type": {
+              "category": "Number",
+              "comment": "description"
+            }
+          }
+        ]
+      },
+      "state": {
+        "category": "Struct",
+        "fields": [
+          {
+            "name": "name",
+            "type": {
+              "category": "Number",
+              "comment": "description"
+            }
+          }
+        ]
+      }
+    }
+  }
