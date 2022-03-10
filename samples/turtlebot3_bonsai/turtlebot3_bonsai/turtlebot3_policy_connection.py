@@ -9,6 +9,7 @@ import time
 from turtlebot3_bonsai.turtlebot3_bonsai_connection import TurtleBot3BonsaiConnection
 from gazebo_msgs.srv import SpawnEntity
 from ament_index_python.packages import get_package_share_directory
+import rclpy
 
 NODE_NAME = "turtlebot3_policy_connection"
 ROBOT_NAME = "turtlebot"
@@ -66,6 +67,15 @@ class PolicyConnection(TurtleBot3BonsaiConnection):
         self.get_odom_state_data()
         self.get_laser_scan_state_data()
 
+        print("---------------------------")
+        print("Commanded Linear Velocity: {}".format(self.cmd_vel_data.linear.x))
+        print("Commanded Angular Velocity: {}".format(self.cmd_vel_data.angular.z))
+        print("Actual Linear Velocity: {}".format(self.state["twist_linear_velocity_x"]))
+        print("Actual Angular Velocity: {}".format(self.state["twist_angular_velocity_z"]))
+        print("Distance to Nearest Object: {}".format(self.state["nearest_scan_range"]))
+        print("Angle to Nearest Object: {}".format(self.state["nearest_scan_radians"]))
+        print("---------------------------")
+
         # Set the request variables
         requestBody = {
         "state": {
@@ -86,6 +96,13 @@ class PolicyConnection(TurtleBot3BonsaiConnection):
             "odometry_orientation_y": self.state["odometry_orientation_y"],
             "odometry_orientation_z": self.state["odometry_orientation_z"],
             "odometry_orientation_w": self.state["odometry_orientation_w"],
+            "last_odometry_position_x": self.state["last_odometry_position_x"],
+            "last_odometry_position_y": self.state["last_odometry_position_y"],
+            "last_odometry_position_z": self.state["last_odometry_position_z"],
+            "last_odometry_orientation_x": self.state["last_odometry_orientation_x"],
+            "last_odometry_orientation_y": self.state["last_odometry_orientation_y"],
+            "last_odometry_orientation_z": self.state["last_odometry_orientation_z"],
+            "last_odometry_orientation_w": self.state["last_odometry_orientation_w"],
             "twist_angular_velocity_x:": self.state["twist_angular_velocity_x"],
             "twist_angular_velocity_y": self.state["twist_angular_velocity_y"],
             "twist_angular_velocity_z": self.state["twist_angular_velocity_z"],
@@ -96,6 +113,10 @@ class PolicyConnection(TurtleBot3BonsaiConnection):
             "imu_orientation_y": self.state["imu_orientation_y"],
             "imu_orientation_z": self.state["imu_orientation_z"],
             "imu_orientation_w": self.state["imu_orientation_w"],
+            "last_imu_orientation_x": self.state["last_imu_orientation_x"],
+            "last_imu_orientation_y": self.state["last_imu_orientation_y"],
+            "last_imu_orientation_z": self.state["last_imu_orientation_z"],
+            "last_imu_orientation_w": self.state["last_imu_orientation_w"],
             "imu_angular_velocity_x": self.state["imu_angular_velocity_x"],
             "imu_angular_velocity_y": self.state["imu_angular_velocity_y"],
             "imu_angular_velocity_z": self.state["imu_angular_velocity_z"],
@@ -112,7 +133,9 @@ class PolicyConnection(TurtleBot3BonsaiConnection):
             "goal_pose_x": self.state["goal_pose_x"],
             "goal_pose_y": self.state["goal_pose_y"],
             "nearest_scan_range": self.state["nearest_scan_range"],
-            "nearest_scan_radians": self.state["nearest_scan_radians"]
+            "nearest_scan_radians": self.state["nearest_scan_radians"],
+            "last_scan_range": self.state["last_scan_range"],
+            "last_scan_radians": self.state["last_scan_radians"]
             }
         }
 
@@ -126,23 +149,14 @@ class PolicyConnection(TurtleBot3BonsaiConnection):
         # Extract the JSON response
         prediction = response.json()
 
-        # Access the JSON result: full response object
-        print(prediction)
-
-        # Access the JSON result: all concepts
-        print(prediction['concepts'])
-
-        # # Access the JSON result: specific field
-        # print("Actual State")
-        # print("odom position x = {}".format(self.state["odometry_position_x"]))
-        # print("odom position y = {}".format(self.state["odometry_position_y"]))
-        # print("imu position x = {}".format(self.state["imu_orientation_x"]))
-        # print("imu position y = {}".format(self.state["imu_orientation_y"]))
-        # print("Target State")
-        # print("actual position x = {}".format(self.state["goal_pose_x"]))
-        # print("actual position y = {}".format(self.state["goal_pose_y"]))
-        self.cmd_vel_data.linear.x = prediction['concepts']['AvoidObstacles']['action']['input_linear_velocity_x']
-        self.cmd_vel_data.angular.z = prediction['concepts']['AvoidObstacles']['action']['input_angular_velocity_z']
+        self.cmd_vel_data.linear.x = prediction['concepts']['PickOne']['action']['input_linear_velocity_x']
+        self.cmd_vel_data.angular.z = prediction['concepts']['PickOne']['action']['input_angular_velocity_z']
 
         # Command Turtlebot3
         self.cmd_vel_pub.publish(self.cmd_vel_data)
+
+    def run(self):
+        while True: 
+            rclpy.spin_once(self)
+            self.post_state_data()
+            time.sleep(0.5)

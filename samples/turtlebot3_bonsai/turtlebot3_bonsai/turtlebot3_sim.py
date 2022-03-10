@@ -18,7 +18,7 @@ def main(args=None):
                                                         float(args[3]),
                                                         args[4])
         turtlebot3_sim_connection.register_simulator()
-        rclpy.spin(turtlebot3_sim_connection)
+        turtlebot3_sim_connection.run()
 
     except KeyboardInterrupt:
         print("Closing sim connection due to keyboard interrupt")

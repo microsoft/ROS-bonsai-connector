@@ -13,7 +13,7 @@ def main(args=None):
         rclpy.init(args=args)
         args = rclpy.utilities.remove_ros_args(sys.argv)
         turtlebot3_policy_connection = PolicyConnection("http://localhost:5000", parse_boolean(args[1]))
-        rclpy.spin(turtlebot3_policy_connection)
+        turtlebot3_policy_connection.run()
         
     except KeyboardInterrupt:
         print("Closing policy connection due to keyboard interrupt")

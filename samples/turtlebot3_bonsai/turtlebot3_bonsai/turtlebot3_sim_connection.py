@@ -51,10 +51,6 @@ class SimulatorConnection(TurtleBot3BonsaiConnection):
         self.sim_delay = 0.0
         self.episode_config = {}
         self.done = False
-
-        self.event_timer = self.create_timer(
-            0.250,  # unit: s
-            self.event_callback)
         
         # Get path to the turtlebot3
         self.sdf = os.path.join(
@@ -88,7 +84,7 @@ class SimulatorConnection(TurtleBot3BonsaiConnection):
         self.cmd_vel_pub.publish(self.cmd_vel_data)
 
         # UNPAUSE SIMULATION
-        time.sleep(0.1)  # Wait for some time to execute sim state change
+        time.sleep(0.05)  # Wait for some time to execute sim state change
         
         # RETRIEVE OBSERVATIONS FROM SIMULATION
         self.get_odom_state_data()
@@ -189,39 +185,44 @@ class SimulatorConnection(TurtleBot3BonsaiConnection):
 
         return event
 
-    def event_callback(self):
-        event = self.get_event()
+    def run(self):
+        while True:
+            rclpy.spin_once(self)
 
-        # Event loop
-        if event.type == "Idle":
-            time.sleep(event.idle.callback_time)
-            self.get_logger().info("Idling...")
+            event = self.get_event()
 
-        elif event.type == "EpisodeStart":
-            self.episode += 1
-            self.get_logger().info("Episode {} Starting...".format(self.episode))
-            config = event.episode_start.config
+            # Event loop
+            if event.type == "Idle":
+                time.sleep(event.idle.callback_time)
+                self.get_logger().info("Idling...")
 
-            if config is None:
-                raise ValueError("No episode start config received from Bonsai")
+            elif event.type == "EpisodeStart":
+                self.episode += 1
+                self.get_logger().info("Episode {} Starting...".format(self.episode))
+                config = event.episode_start.config
 
-            self.get_episode_config(config)
-            self.reset()
+                if config is None:
+                    raise ValueError("No episode start config received from Bonsai")
 
-        elif event.type == "EpisodeStep":
-            self.iteration += 1
-            self.step(event.episode_step.action)
+                self.get_episode_config(config)
+                self.reset()
 
-        elif event.type == "EpisodeFinish":
-            self.get_logger().info("Episode {} Finishing...".format(self.episode))
-            self.iteration = 0
+            elif event.type == "EpisodeStep":
+                self.iteration += 1
+                self.step(event.episode_step.action)
 
-        elif event.type == "Unregister":
-            self.get_logger().info(
-                "Simulator Session unregistered by platform because {}".format(
-                    event.unregister.details
+            elif event.type == "EpisodeFinish":
+                self.get_logger().info("Episode {} Finishing...".format(self.episode))
+                self.iteration = 0
+
+            elif event.type == "Unregister":
+                self.get_logger().info(
+                    "Simulator Session unregistered by platform because {}".format(
+                        event.unregister.details
+                    )
                 )
-            )
+
+            time.sleep(0.25)
 
     def register_simulator(self):
 
