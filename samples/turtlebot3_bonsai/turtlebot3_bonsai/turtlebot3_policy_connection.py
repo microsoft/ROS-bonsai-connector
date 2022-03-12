@@ -7,7 +7,7 @@ import os
 import time
 
 from turtlebot3_bonsai.turtlebot3_bonsai_connection import TurtleBot3BonsaiConnection
-from gazebo_msgs.srv import SpawnEntity
+#from gazebo_msgs.srv import SpawnEntity
 from ament_index_python.packages import get_package_share_directory
 import rclpy
 
@@ -15,7 +15,7 @@ NODE_NAME = "turtlebot3_policy_connection"
 ROBOT_NAME = "turtlebot"
 
 class PolicyConnection(TurtleBot3BonsaiConnection):
-    def __init__(self, policy_url, sim=False, pose_x=0.0, pose_y=0.0, pose_z=0.0):
+    def __init__(self, policy_url, concept_name, sim=False, pose_x=0.0, pose_y=0.0, pose_z=0.0):
         super().__init__(NODE_NAME)
 
         # General variables
@@ -31,14 +31,6 @@ class PolicyConnection(TurtleBot3BonsaiConnection):
 
         # Build the endpoint reference
         self.endpoint = self.url + self.predictPath.replace("{clientId}", self.myClientId)
-
-        # Initialize node timer
-        self.event_timer = self.create_timer(
-            0.250,  # unit: s
-            self.post_state_data)
-
-        # self.state["goal_pose_x"] = 1     # random number
-        # self.state["goal_pose_y"] = -1    # random number
 
         if sim:
             self.spawn_client = self.create_client(SpawnEntity, "/spawn_entity")
@@ -67,28 +59,18 @@ class PolicyConnection(TurtleBot3BonsaiConnection):
         self.get_odom_state_data()
         self.get_laser_scan_state_data()
 
-        print("---------------------------")
-        print("Commanded Linear Velocity: {}".format(self.cmd_vel_data.linear.x))
-        print("Commanded Angular Velocity: {}".format(self.cmd_vel_data.angular.z))
-        print("Actual Linear Velocity: {}".format(self.state["twist_linear_velocity_x"]))
-        print("Actual Angular Velocity: {}".format(self.state["twist_angular_velocity_z"]))
-        print("Distance to Nearest Object: {}".format(self.state["nearest_scan_range"]))
-        print("Angle to Nearest Object: {}".format(self.state["nearest_scan_radians"]))
-        print("---------------------------")
+        self.get_logger().info("---------------------------")
+        self.get_logger().info("Commanded Linear Velocity: {}".format(self.cmd_vel_data.linear.x))
+        self.get_logger().info("Commanded Angular Velocity: {}".format(self.cmd_vel_data.angular.z))
+        self.get_logger().info("Distance to Nearest Object: {}".format(self.state["nearest_scan_range"]))
+        self.get_logger().info("Angle to Nearest Object: {}".format(self.state["nearest_scan_radians"]))
+        self.get_logger().info("Minimum Lidar Range: {}".format(self.state["lidar_range_min"]))
+        self.get_logger().info("Maximum Lidar Range: {}".format(self.state["lidar_range_max"]))
+        self.get_logger().info("---------------------------")
 
         # Set the request variables
         requestBody = {
         "state": {
-            # "wheel_left_joint_position": self.state["wheel_left_joint_position"],
-            # "wheel_left_joint_velocity": self.state["wheel_left_joint_velocity"],
-            # "wheel_right_joint_position": self.state["wheel_right_joint_position"],
-            # "wheel_right_joint_velocity": self.state["wheel_right_joint_velocity"],
-            "angular_velocity_x": self.state["angular_velocity_x"],
-            "angular_velocity_y": self.state["angular_velocity_y"],
-            "angular_velocity_z": self.state["angular_velocity_z"],
-            "linear_velocity_x": self.state["linear_velocity_x"],
-            "linear_velocity_y": self.state["linear_velocity_y"],
-            "linear_velocity_y": self.state["linear_velocity_y"],
             "odometry_position_x": self.state["odometry_position_x"],
             "odometry_position_y": self.state["odometry_position_y"],
             "odometry_position_z": self.state["odometry_position_z"],
@@ -149,8 +131,8 @@ class PolicyConnection(TurtleBot3BonsaiConnection):
         # Extract the JSON response
         prediction = response.json()
 
-        self.cmd_vel_data.linear.x = prediction['concepts']['PickOne']['action']['input_linear_velocity_x']
-        self.cmd_vel_data.angular.z = prediction['concepts']['PickOne']['action']['input_angular_velocity_z']
+        self.cmd_vel_data.linear.x = prediction['concepts'][concept_name]['action']['input_linear_velocity_x']
+        self.cmd_vel_data.angular.z = prediction['concepts'][concept_name]['action']['input_angular_velocity_z']
 
         # Command Turtlebot3
         self.cmd_vel_pub.publish(self.cmd_vel_data)
@@ -159,4 +141,4 @@ class PolicyConnection(TurtleBot3BonsaiConnection):
         while True: 
             rclpy.spin_once(self)
             self.post_state_data()
-            time.sleep(0.5)
+            time.sleep(0.1)

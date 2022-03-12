@@ -4,6 +4,8 @@ import numpy as np
 
 # ROS
 from rclpy.node import Node
+from rclpy.qos import QoSProfile
+from rclpy.qos import qos_profile_sensor_data
 from sensor_msgs.msg import LaserScan, Imu
 from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
@@ -16,12 +18,13 @@ class TurtleBot3BonsaiConnection(Node):
         # constants
         self.MAX_LINEAR_VEL_BURGER = 0.22
         self.MAX_ANGULAR_VEL_BURGER = 2.7
-        self.MAX_LIDAR_RANGE = 3.5
+
+        qos = QoSProfile(depth=10)
 
         # Subscribe
-        self.odom_sub = self.create_subscription(Odometry, "/odom", self._odom_callback, 10)
-        self.imu_sub = self.create_subscription(Imu, "/imu", self._imu_callback, 10)
-        self.scan_sub = self.create_subscription(LaserScan, "/scan", self._laser_scan_callback, 10)
+        self.odom_sub = self.create_subscription(Odometry, "/odom", self._odom_callback, qos)
+        self.imu_sub = self.create_subscription(Imu, "/imu", self._imu_callback, qos)
+        self.scan_sub = self.create_subscription(LaserScan, "/scan", self._laser_scan_callback, qos_profile=qos_profile_sensor_data)
 
         # Publish
         self.cmd_vel_pub = self.create_publisher(Twist, "/cmd_vel", 1)
@@ -36,13 +39,6 @@ class TurtleBot3BonsaiConnection(Node):
         self.init_params()
 
     def init_params(self):
-        # cmd_vel
-        self.state["angular_velocity_x"] = 0.0
-        self.state["angular_velocity_y"] = 0.0
-        self.state["angular_velocity_z"] = 0.0
-        self.state["linear_velocity_x"] = 0.0
-        self.state["linear_velocity_y"] = 0.0
-        self.state["linear_velocity_y"] = 0.0
 
         # odometry
         self.state["last_odometry_position_x"] = 0.0
@@ -96,7 +92,7 @@ class TurtleBot3BonsaiConnection(Node):
         # config data
         self.state["goal_pose_x"] = 0.0
         self.state["goal_pose_y"] = 0.0
-        self.state["sample_range"] = 1
+        self.state["sample_range"] = 360
 
     def get_odom_state_data(self):
         self.state["last_odometry_position_x"] = self.state["odometry_position_x"]
@@ -166,10 +162,8 @@ class TurtleBot3BonsaiConnection(Node):
             scan_readings = []
 
             for i in filtered_data:
-                if i == float('Inf'):
-                    scan_readings.append(self.MAX_LIDAR_RANGE)
-                if i == float('-Inf'):
-                    scan_readings.append(self.MAX_LIDAR_RANGE)
+                if i == float('Inf') or i == float('-Inf') or i == 0.0:
+                    scan_readings.append(self.state["lidar_range_max"])
                 else:
                     scan_readings.append(float(i))
         
