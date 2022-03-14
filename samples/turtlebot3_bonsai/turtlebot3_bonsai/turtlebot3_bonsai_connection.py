@@ -4,6 +4,8 @@ import numpy as np
 
 # ROS
 from rclpy.node import Node
+from rclpy.qos import QoSProfile
+from rclpy.qos import qos_profile_sensor_data
 from sensor_msgs.msg import LaserScan, Imu
 from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
@@ -16,12 +18,13 @@ class TurtleBot3BonsaiConnection(Node):
         # constants
         self.MAX_LINEAR_VEL_BURGER = 0.22
         self.MAX_ANGULAR_VEL_BURGER = 2.7
-        self.MAX_LIDAR_RANGE = 3.5
+
+        qos = QoSProfile(depth=10)
 
         # Subscribe
-        self.odom_sub = self.create_subscription(Odometry, "/odom", self._odom_callback, 10)
-        self.imu_sub = self.create_subscription(Imu, "/imu", self._imu_callback, 10)
-        self.scan_sub = self.create_subscription(LaserScan, "/scan", self._laser_scan_callback, 10)
+        self.odom_sub = self.create_subscription(Odometry, "/odom", self._odom_callback, qos)
+        self.imu_sub = self.create_subscription(Imu, "/imu", self._imu_callback, qos)
+        self.scan_sub = self.create_subscription(LaserScan, "/scan", self._laser_scan_callback, qos_profile=qos_profile_sensor_data)
 
         # Publish
         self.cmd_vel_pub = self.create_publisher(Twist, "/cmd_vel", 1)
@@ -36,13 +39,6 @@ class TurtleBot3BonsaiConnection(Node):
         self.init_params()
 
     def init_params(self):
-        # cmd_vel
-        self.state["angular_velocity_x"] = 0.0
-        self.state["angular_velocity_y"] = 0.0
-        self.state["angular_velocity_z"] = 0.0
-        self.state["linear_velocity_x"] = 0.0
-        self.state["linear_velocity_y"] = 0.0
-        self.state["linear_velocity_y"] = 0.0
 
         # odometry
         self.state["last_odometry_position_x"] = 0.0
@@ -96,7 +92,7 @@ class TurtleBot3BonsaiConnection(Node):
         # config data
         self.state["goal_pose_x"] = 0.0
         self.state["goal_pose_y"] = 0.0
-        self.state["sample_range"] = 1
+        self.state["sample_range"] = 360
 
     def get_odom_state_data(self):
         self.state["last_odometry_position_x"] = self.state["odometry_position_x"]
@@ -151,33 +147,38 @@ class TurtleBot3BonsaiConnection(Node):
             filtered_data = []
             scan_data = np.array(self.laser_scan_data.ranges)
 
+            # ensure index range is type Int since the data comes from a Json Float32 object
+            left_offset = int(self.state["sample_range"]/2) + int(self.state["sample_range"] % 2)
+            right_offset = int(self.state["sample_range"]/2)
+
             if self.state["sample_range"] == 1:
                 filtered_data.append(scan_data[0])
-            elif self.state["sample_range"] <= 360:
-                # ensure index range is type Int since the data comes from a Json Float32 object
-                left_range = -(int(self.state["sample_range"]/2) + int(self.state["sample_range"] % 2))
-                right_range = int(self.state["sample_range"]/2)
+            elif self.state["sample_range"] < 360:
+                left_range = -(left_offset)
+                right_range = right_offset
                 
                 left_lidar_samples = scan_data[left_range:]
                 right_lidar_samples = scan_data[:right_range]
                 filtered_data.extend(left_lidar_samples + right_lidar_samples)
+            elif self.state["sample_range"] == 360:
+                filtered_data = scan_data
 
-            # Transform Inf values to the max lidar range
+            # Transform Inf and 0 values to the max lidar range
             scan_readings = []
 
             for i in filtered_data:
-                if i == float('Inf'):
-                    scan_readings.append(self.MAX_LIDAR_RANGE)
-                if i == float('-Inf'):
-                    scan_readings.append(self.MAX_LIDAR_RANGE)
+                if i == float('Inf') or i == float('-Inf') or i == 0.0:
+                    scan_readings.append(self.state["lidar_range_max"])
                 else:
                     scan_readings.append(float(i))
+
+            total_scan_radians = self.state["sample_range"] * float(self.state["lidar_angle_increment"])
         
             # Save the nearest 
             self.state["last_scan_range"] = self.state["nearest_scan_range"]
             self.state["last_scan_radians"] = self.state["nearest_scan_radians"]
             self.state["nearest_scan_range"] = float(np.min(scan_readings))
-            self.state["nearest_scan_radians"] = float((np.amin(scan_readings) - float(self.state["sample_range"]/2)) * float(self.state["lidar_angle_increment"]))
+            self.state["nearest_scan_radians"] = float((scan_readings.index(self.state["nearest_scan_range"]) * float(self.state["lidar_angle_increment"])) - total_scan_radians/2)
 
     def _odom_callback(self, data):
         self.odom_data = data
