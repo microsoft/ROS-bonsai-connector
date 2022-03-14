@@ -51,16 +51,19 @@ graph (input: SimState): SimAction {
             training {
                 # Limit the number of iterations per episode to 250. The default
                 # is 1000, which makes it much tougher to succeed.
-                EpisodeIterationLimit: 500
+                EpisodeIterationLimit: 1000
             }
 
             goal (State: SimState) {
+                minimize `Distance From Obstacle`:
+                    State.nearest_scan_range
+                    in Goal.Range(4*State.lidar_range_min, 6 * State.lidar_range_min)
                 drive `Consistent Distance From Obstacle`:
                     State.nearest_scan_range
-                    in Goal.Range(State.lidar_range_min, 2 * State.lidar_range_min)
+                    in Goal.Range(0.7*State.last_scan_range, 1.3 * State.last_scan_range)
                 drive `Angle of Obstacle`:
                     State.nearest_scan_radians
-                    in Goal.Range(Math.Pi/3, Math.Pi/2)
+                    in Goal.Range(Math.Pi/4, Math.Pi/2)
             }
 
             lesson `Default start` {
