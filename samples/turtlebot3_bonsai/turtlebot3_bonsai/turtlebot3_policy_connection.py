@@ -15,8 +15,8 @@ NODE_NAME = "turtlebot3_policy_connection"
 ROBOT_NAME = "turtlebot"
 
 class PolicyConnection(TurtleBot3BonsaiConnection):
-    def __init__(self, policy_url, concept_name, sim=False, pose_x=0.0, pose_y=0.0, pose_z=0.0):
-        super().__init__(NODE_NAME)
+    def __init__(self, policy_url, concept_name, node_name=NODE_NAME, sim=False, pose_x=0.0, pose_y=0.0, pose_z=0.0):
+        super().__init__(node_name)
 
         # General variables
         self.url = policy_url
@@ -31,6 +31,8 @@ class PolicyConnection(TurtleBot3BonsaiConnection):
 
         # Build the endpoint reference
         self.endpoint = self.url + self.predictPath.replace("{clientId}", self.myClientId)
+
+        self.concept_name = concept_name
 
         if sim:
             self.spawn_client = self.create_client(SpawnEntity, "/spawn_entity")
@@ -54,19 +56,19 @@ class PolicyConnection(TurtleBot3BonsaiConnection):
 
             time.sleep(0.3)
 
-    def post_state_data(self):
+    def command_with_policy(self):
         self.get_imu_state_data()
         self.get_odom_state_data()
         self.get_laser_scan_state_data()
 
-        self.get_logger().info("---------------------------")
-        self.get_logger().info("Commanded Linear Velocity: {}".format(self.cmd_vel_data.linear.x))
-        self.get_logger().info("Commanded Angular Velocity: {}".format(self.cmd_vel_data.angular.z))
-        self.get_logger().info("Distance to Nearest Object: {}".format(self.state["nearest_scan_range"]))
-        self.get_logger().info("Angle to Nearest Object: {}".format(self.state["nearest_scan_radians"]))
-        self.get_logger().info("Minimum Lidar Range: {}".format(self.state["lidar_range_min"]))
-        self.get_logger().info("Maximum Lidar Range: {}".format(self.state["lidar_range_max"]))
-        self.get_logger().info("---------------------------")
+        self.get_logger().debug("---------------------------")
+        self.get_logger().debug("Commanded Linear Velocity: {}".format(self.cmd_vel_data.linear.x))
+        self.get_logger().debug("Commanded Angular Velocity: {}".format(self.cmd_vel_data.angular.z))
+        self.get_logger().debug("Distance to Nearest Object: {}".format(self.state["nearest_scan_range"]))
+        self.get_logger().debug("Angle to Nearest Object: {}".format(self.state["nearest_scan_radians"]))
+        self.get_logger().debug("Minimum Lidar Range: {}".format(self.state["lidar_range_min"]))
+        self.get_logger().debug("Maximum Lidar Range: {}".format(self.state["lidar_range_max"]))
+        self.get_logger().debug("---------------------------")
 
         # Set the request variables
         requestBody = {
@@ -131,8 +133,8 @@ class PolicyConnection(TurtleBot3BonsaiConnection):
         # Extract the JSON response
         prediction = response.json()
 
-        self.cmd_vel_data.linear.x = prediction['concepts'][concept_name]['action']['input_linear_velocity_x']
-        self.cmd_vel_data.angular.z = prediction['concepts'][concept_name]['action']['input_angular_velocity_z']
+        self.cmd_vel_data.linear.x = prediction['concepts'][self.concept_name]['action']['input_linear_velocity_x']
+        self.cmd_vel_data.angular.z = prediction['concepts'][self.concept_name]['action']['input_angular_velocity_z']
 
         # Command Turtlebot3
         self.cmd_vel_pub.publish(self.cmd_vel_data)
@@ -140,5 +142,5 @@ class PolicyConnection(TurtleBot3BonsaiConnection):
     def run(self):
         while True: 
             rclpy.spin_once(self)
-            self.post_state_data()
+            self.command_with_policy()
             time.sleep(0.1)

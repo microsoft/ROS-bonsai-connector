@@ -29,9 +29,9 @@ class PolicyConnection(BonsasiROSBase):
         # Initialize node timer
         self.event_timer = self.create_timer(
             0.250,  # unit: s
-            self.post_state_data)
+            self.command_with_policy)
 
-    def post_state_data(self):
+    def command_with_policy(self):
 
         # Set the request variables
         requestBody = {
