@@ -12,7 +12,6 @@ from nav_msgs.msg import Odometry
 
 class TurtleBot3BonsaiConnection(Node):
     def __init__(self, node_name):
-        # Calls Node.__init__('listener')
         super().__init__(node_name)
 
         # constants
