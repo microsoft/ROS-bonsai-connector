@@ -1,3 +1,6 @@
+# Turtlebot3 Sample
+If you are here for the Turtlebot3 Simulator for Bonsai, please see the [Turtlebot3 Bonsai README](./samples/turtlebot3_bonsai/README.md)
+
 # ROS Connector
 A python connector for integrating Bonsai with robotic simulations that use ROS as a message passing framework. Common simulators for robotics:
 
@@ -6,7 +9,7 @@ A python connector for integrating Bonsai with robotic simulations that use ROS 
 * CoppeliaSim
 * Unity
 
-This connector is compatible with ROS2 and tested with Foxy Fitzroy.
+This connector is built for ROS2 Foxy Fitzroy.
 
 # Getting Started
 
@@ -26,8 +29,8 @@ We will come back to this later once the the simulator is ready to be connected 
 
 A linux workspace or WLS2 is highly reccommended. 
 
-See [Setting up ROS in WLS2](https://jack-kawell.com/2020/06/12/ros-wsl2/) - DO NOT PROCEED with the ROS INSTALLTION section
-
+1. Install WLS2 (see WSL Installation at [Setting up ROS in WLS2](https://jack-kawell.com/2020/06/12/ros-wsl2/))
+1. Set up GUI forwarding (see Setting Up GUI Forwarding at [Setting up ROS in WLS2](https://jack-kawell.com/2020/06/12/ros-wsl2/))
 1. [Install ROS2 ](https://docs.ros.org/en/foxy/Installation.html)
 1. [Configure your ROS2 Environment](https://docs.ros.org/en/foxy/Tutorials/Configuring-ROS2-Environment.html)
 1. Create a workspace [Example](https://docs.ros.org/en/foxy/Tutorials/Workspace/Creating-A-Workspace.html)
