@@ -8,9 +8,9 @@ This sample assumes that you have access to an Azure Subscription and have set u
 To run the simulator locally, you will need to install Docker on your machine. In a command line shell (ex: powershell, bash):
 
 * navigate to the samples/ directory 
-* `docker image build -f turtlebot3_bonsai/Dockerfile . -t <image name> --build-arg WORLD=<world>
+* `docker image build -f turtlebot3_bonsai/Dockerfile . -t <image name> --build-arg WORLD=<world>`
 * copy and edit the env.example file in the config folder with your Bonsai workspace settings
-* `docker container run <image name> --env-file=turtlebot3_bonsai/config/<env file>
+* `docker container run <image name> --env-file=turtlebot3_bonsai/config/<env file>`
 
 Note: the <world> options are 
 * warehouse
@@ -33,9 +33,9 @@ See [How to Install the Azure CLI](https://docs.microsoft.com/en-us/cli/azure/in
 In a command line shell (ex: powershell, bash):
 
 * navigate to the samples/ directory 
-* az login
-* az acr login -n <bonsai workspace name>
-* az acr build --image <image name> --registry <bonsai azure container registry name> --file turtlebot3_bonsai/Dockerfile . --build-arg WORLD=<world>
+* `az login`
+* `az acr login -n <bonsai workspace name>`
+* `az acr build --image <image name> --registry <bonsai azure container registry name> --file turtlebot3_bonsai/Dockerfile . --build-arg WORLD=<world>`
 * In the Bonsai UI, go to '+ Add sim' and select 'Other'
 * Add your <image name> to the path to the ACR image and name your sim. 
 * Recommended settings - OS: Linux, Max Instance Count: 25, Cores: 2, Memory: 4GB
