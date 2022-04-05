@@ -42,7 +42,7 @@ In a command line shell (ex: powershell, bash):
 
 You should now be able to link your brain to this simulator. Note that running this sim will significantly speed up training time at the cost of Azure spend. 
 
-Note: if you are unsure of what your Azure Container Registry name is, it is most likely the same name as your Bonsai workspace. You can also find it within a resource group in the Azure portal named bonsai-rg-<workspace name>-<uuid>.
+Note: if you are unsure of what your Azure Container Registry name is, it is most likely the same name as your Bonsai workspace. You can also find it within a resource group in the Azure portal named `bonsai-rg-<workspace name>-<uuid>`.
 
 ## Training
 See the turtlebot3_bonsai/inkling/ directory for an example inkling file
