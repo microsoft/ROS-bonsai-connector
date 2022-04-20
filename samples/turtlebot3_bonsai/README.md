@@ -10,7 +10,7 @@ To run the simulator locally, you will need to install Docker on your machine. I
 * navigate to the samples/ directory 
 * `docker image build -f turtlebot3_bonsai/Dockerfile . -t <image name> --build-arg WORLD=<world>`
 * copy and edit the env.example file in the config folder with your Bonsai workspace settings
-* `docker container run <image name> --env-file=turtlebot3_bonsai/config/<env file>`
+* `docker container run --env-file=turtlebot3_bonsai/config/<env file> <image name>`
 
 Note: the <world> options are 
 * warehouse
