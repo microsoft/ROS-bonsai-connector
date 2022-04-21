@@ -18,12 +18,12 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     ros-foxy-turtlebot3 \
     ros-foxy-turtlebot3-gazebo \
     && rm -rf /var/lib/apt/lists/*
-    
+
 # Install dependencies
 RUN pip3 install -U setuptools \
     && pip3 install git+https://github.com/microsoft/bonsai-common \
     && pip3 uninstall -y setuptools
-    
+
 RUN pip3 install scipy
 
 # bootstrap rosdep
@@ -57,7 +57,7 @@ COPY ./sample_worlds /ros2_ws/src/sample_worlds
 RUN . /opt/ros/foxy/setup.sh && colcon build
 
 # convert file format in case the host is windows
-RUN dos2unix /ros2_ws/src/turtlebot3_bonsai
+RUN dos2unix /ros2_ws/src/turtlebot3_bonsai/launch/launch.sh
 
 # command to run the simulation
 CMD bash src/turtlebot3_bonsai/launch/launch.sh
