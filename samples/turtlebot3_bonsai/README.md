@@ -9,7 +9,7 @@ To run the simulator locally, you will need to install Docker on your machine.
 
 In a command line shell (ex: powershell, bash):
 
-* git clone --recurse-submodules git@github.com:microsoft/ROS-bonsai-connector.git
+* `git clone --recurse-submodules git@github.com:microsoft/ROS-bonsai-connector.git`
 * navigate to the samples/ directory
 * `docker image build -f turtlebot3_bonsai/Dockerfile . -t <image name> --build-arg WORLD=<world>`
 * copy and edit the env.example file in the config folder with your Bonsai workspace settings
