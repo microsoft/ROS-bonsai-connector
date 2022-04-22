@@ -50,4 +50,5 @@ qtcreator-*
 # Catkin custom files
 CATKIN_IGNORE
 
-
+# configuration for Bonsai workspace
+/samples/turtlebot3_bonsai/config/env
