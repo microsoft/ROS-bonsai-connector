@@ -18,7 +18,7 @@ This sample provides a Dockerfile and associated code to train reinforecment lea
 3. In the `env` file, provide a Bonsai workspace ID and an access key. See [Bonasi document - Get your workspace access key](https://docs.microsoft.com/en-us/bonsai/cookbook/get-access-key)
 4. In a command line shell, run the command:
 
-    `docker container run <image name> --env-file=turtlebot3_bonsai/config/<env file>`
+    `docker container run --env-file=turtlebot3_bonsai/config/<env file> <image name>`
 
     Note: the \<world\> options are
     * warehouse
