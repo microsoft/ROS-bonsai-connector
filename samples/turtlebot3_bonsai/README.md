@@ -7,7 +7,7 @@ This sample provides a Dockerfile and associated code to train reinforecment lea
 * A Bonsai workspace. See [Microsoft Bonsai Account Setup](https://docs.microsoft.com/en-us/bonsai/guides/account-setup).
 * [Docker](https://docs.docker.com/get-docker/)
 
-## Building and Running the Simulator Locally
+## Building and Running the Training Simulator Locally
 
 1. Clone the repository with:
 
@@ -15,19 +15,19 @@ This sample provides a Dockerfile and associated code to train reinforecment lea
 
 2. In a command line shell (ex: PowerShell, bash), navigate to the `samples/` directory and run the following command:
 
-    `docker image build -f turtlebot3_bonsai/Dockerfile . -t <image name> --build-arg WORLD=<world>`
-
-3. Create an `env` file in `turtlebot3_bonsai/config/` directory of the project, copying the contents of the env.example file.
-4. In the `env` file, provide a Bonsai workspace ID and an access key. See [Bonasi document - Get your workspace access key](https://docs.microsoft.com/en-us/bonsai/cookbook/get-access-key)
-5. In a command line shell, run the command:
-
-    `docker container run --env-file=turtlebot3_bonsai/config/<env file> <image name>`
+    `docker image build -f turtlebot3_bonsai/Dockerfile . -t <image name> --build-arg MODE=train --build-arg WORLD=<world>`
 
     Note: the \<world\> options are
     * warehouse
     * racetrack
     * small_house
     * bookstore
+
+2. Create an `env.train` file in `turtlebot3_bonsai/config/` directory of the project, copying the contents of the **env.train_example** file.
+3. In the `env.train` file, provide a Bonsai workspace ID and an access key. See [Bonasi document - Get your workspace access key](https://docs.microsoft.com/en-us/bonsai/cookbook/get-access-key)
+4. In a command line shell, run the command:
+
+    `docker container run --env-file=turtlebot3_bonsai/config/env.train <image name>`
 
     The world determines the environment that the turtlebot3 will be launched in. They reference OSS gazebo models created by AWS Robotics. You can learn more about these worlds at
 
@@ -46,7 +46,7 @@ In a command line shell (ex: powershell, bash):
 * navigate to the samples/ directory
 * `az login`
 * `az acr login -n <bonsai workspace name>`
-* `az acr build --image <image name> --registry <bonsai azure container registry name> --file turtlebot3_bonsai/Dockerfile . --build-arg WORLD=<world>`
+* `az acr build --image <image name> --registry <bonsai azure container registry name> --file turtlebot3_bonsai/Dockerfile .  --build-arg MODE=train --build-arg WORLD=<world>`
 * In the Bonsai UI, go to '+ Add sim' and select 'Other'
 * Add your <image name> to the path to the ACR image and name your sim.
 * Recommended settings - OS: Linux, Max Instance Count: 25, Cores: 2, Memory: 4GB
@@ -58,11 +58,45 @@ Note: if you are unsure of what your Azure Container Registry name is, it is mos
 ## Training
 See the turtlebot3_bonsai/inkling/ directory for an example inkling file
 
-## Export Brain to Turtlebot3
 Once you are satisfied with your Bonsai brain, you can export it at the top right of the training window.
 
-If you want to run the brain in the simulation loop, export the brain for linux-amd64 and follow the deployment instructions. Then launch the policy_with_sim.alunch.py file. This launch file defaults to using the bookstore world.
+## Export Brain and Test With The Simulation
 
+![Alt Text](./images/policy_in_the_loop.gif)
+
+If you want to run the brain in the simulation loop:
+
+1. Select the train tab of your brain. Click export the brain at the top right of the browser and select Linux x64 as your processor architecture.
+2. Once the brain is ready under Exported Brains in the lower left portion of the browser, click the dots next to the brain and select View Deployment Instructions. Follow these instructions.
+3. In a command line shell (ex: PowerShell, bash), navigate to the `samples/` directory and run the following command:
+
+    `docker image build -f turtlebot3_bonsai/Dockerfile . -t <image name> --build-arg MODE=test --build-arg WORLD=<world>`
+
+    Note: the \<world\> options are
+    * warehouse
+    * racetrack
+    * small_house
+    * bookstore
+
+4. Create an `env.test` file in `turtlebot3_bonsai/config/` directory of the project, copying the contents of the **env.test_example** file.
+5. In the `env.test` file, provide the name of the Bonsai policy and your machine's local IP address. If you used the sample inkling, the name is policy name is **AvoidObstacles**.
+
+   If you are using windows, you can find your local IP address by opening a command prompt and typing `ipconfig`.
+
+   If you are using Linux or MacOS, you can find your local IP address by opening a terminal and typing `ifconfig`.
+
+   Look for an address that looks like 192.168.X.X.
+
+6.
+   If you are using Windows, open Powershell and run the command:
+
+    `docker container run --env-file=turtlebot3_bonsai/config/env.test --net=host <image name>`
+
+   If you are using Linux or MacOS, open a terminal and run the command:
+
+    `TBD`
+
+## Export Brain to Turtlebot3
 If you want to run the brain on your turtlebot3, export the brain for linux-arm32v7 and follow the deployment instructions. Note that if you have a turtlebot3 running a pi 4, you may need to export the brain for linux-arm64v8. On the robot, run `ros2 launch turtlebot3_bringup robot.launch.py` and `ros2 launch turtlebot3_bonsai policy_without_sim.launch.py`.
 
 # Advanced Usage
@@ -76,7 +110,7 @@ If you want to run the simulator locally without docker:
 * clone this repo into the src folder
 * `colcon build`
 * `source install/setup.bash`
-* `ros2 launch turtlebot3_bonsai <world>.launch.py`
+* `ros2 launch turtlebot3_bonsai <world>_test.launch.py`
 
 ## Editing the Simulator
 

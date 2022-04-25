@@ -1,7 +1,8 @@
 # This is an auto generated Dockerfile for ros:ros-base
 # generated from docker_images_ros2/create_ros_image.Dockerfile.em
 FROM ros:foxy-ros-core-focal
-ARG SIM_WORLD
+ARG WORLD
+ARG MODE
 
 # install bootstrap tools
 RUN apt-get update && apt-get install --no-install-recommends -y \
@@ -49,7 +50,8 @@ RUN mkdir -p /ros2_ws/src
 WORKDIR /ros2_ws
 
 ENV TURTLEBOT3_MODEL burger
-ENV SIM_WORLD ${SIM_WORLD}
+ENV SIM_WORLD ${WORLD}
+ENV SIM_MODE ${MODE}
 
 COPY ./turtlebot3_bonsai /ros2_ws/src/turtlebot3_bonsai
 COPY ./sample_worlds /ros2_ws/src/sample_worlds

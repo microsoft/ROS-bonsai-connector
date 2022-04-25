@@ -12,9 +12,15 @@ def main(args=None):
         # Setup
         rclpy.init(args=args)
         args = rclpy.utilities.remove_ros_args(sys.argv)
-        turtlebot3_policy_connection = PolicyConnection("http://localhost:5000", "PerimeterObstacle", parse_boolean(args[1]))
+        turtlebot3_policy_connection = PolicyConnection(policy_url = "http://localhost:5000",
+                                                        sim = parse_boolean(args[1]),
+                                                        concept_name = args[2],
+                                                        pose_x = float(args[3]),
+                                                        pose_y = float(args[4]),
+                                                        pose_z = float(args[5]),
+                                                        world = args[6])
         turtlebot3_policy_connection.run()
-        
+
     except KeyboardInterrupt:
         print("Closing policy connection due to keyboard interrupt")
     finally:
