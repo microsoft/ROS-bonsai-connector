@@ -9,14 +9,17 @@ This sample provides a Dockerfile and associated code to train reinforecment lea
 
 ## Building and Running the Simulator Locally
 
+1. Clone the repository with:
 
-1. In a command line shell (ex: PowerShell, bash), navigate to the `samples/` directory and run the following command:
+     `git clone --recurse-submodules git@github.com:microsoft/ROS-bonsai-connector.git`
+
+2. In a command line shell (ex: PowerShell, bash), navigate to the `samples/` directory and run the following command:
 
     `docker image build -f turtlebot3_bonsai/Dockerfile . -t <image name> --build-arg WORLD=<world>`
 
-2. Create an `env` file in `turtlebot3_bonsai/config/` directory of the project, copying the contents of the env.example file.
-3. In the `env` file, provide a Bonsai workspace ID and an access key. See [Bonasi document - Get your workspace access key](https://docs.microsoft.com/en-us/bonsai/cookbook/get-access-key)
-4. In a command line shell, run the command:
+3. Create an `env` file in `turtlebot3_bonsai/config/` directory of the project, copying the contents of the env.example file.
+4. In the `env` file, provide a Bonsai workspace ID and an access key. See [Bonasi document - Get your workspace access key](https://docs.microsoft.com/en-us/bonsai/cookbook/get-access-key)
+5. In a command line shell, run the command:
 
     `docker container run --env-file=turtlebot3_bonsai/config/<env file> <image name>`
 
