@@ -94,7 +94,7 @@ If you want to run the brain in the simulation loop:
 
     `xhost +local:docker && docker container run --env-file=turtlebot3_bonsai/config/env.test --env="QT_X11_NO_MITSHM=1" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" --net=host <image name>`
 
-    Note that this is untested for MacOS.
+    Note that this is untested for MacOS and WSL.
 
 ## Export Brain to Turtlebot3
 If you want to run the brain on your turtlebot3, export the brain for linux-arm32v7 and follow the deployment instructions. Note that if you have a turtlebot3 running a pi 4, you may need to export the brain for linux-arm64v8. On the robot, run `ros2 launch turtlebot3_bringup robot.launch.py` and `ros2 launch turtlebot3_bonsai policy_without_sim.launch.py`.
