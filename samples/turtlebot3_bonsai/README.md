@@ -79,22 +79,22 @@ If you want to run the brain in the simulation loop:
     * bookstore
 
 4. Create an `env.test` file in `turtlebot3_bonsai/config/` directory of the project, copying the contents of the **env.test_example** file.
-5. In the `env.test` file, provide the name of the Bonsai policy and your machine's local IP address. If you used the sample inkling, the name is policy name is **AvoidObstacles**.
+5. In the `env.test` file, provide the name of the Bonsai policy. If you used the sample inkling, the name is policy name is **AvoidObstacles**. If you are on Windows, set DISPLAY=YOUR_LOCAL_IP:0.0. If you are on Linux, leave DISPLAY blank.
 
    If you are using windows, you can find your local IP address by opening a command prompt and typing `ipconfig`.
 
-   If you are using Linux or MacOS, you can find your local IP address by opening a terminal and typing `ifconfig`.
-
    Look for an address that looks like 192.168.X.X.
 
-6.
-   If you are using Windows, open Powershell and run the command:
+6. If you are using Windows, you will need to install an X-server such as [VcXsrv](https://sourceforge.net/projects/vcxsrv/) to forward the simulation gui to. Once installed, run XLaunch from the start menu with all extra settings selected.
+7. Open Powershell and run the command:
 
     `docker container run --env-file=turtlebot3_bonsai/config/env.test --net=host <image name>`
 
-   If you are using Linux or MacOS, open a terminal and run the command:
+   If you are using Linux, open a terminal and run the command:
 
-    `TBD`
+    `xhost +local:docker && docker container run --env-file=turtlebot3_bonsai/config/env.test --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" --net=host <image name>`
+
+    Note that this is untested for MacOS.
 
 ## Export Brain to Turtlebot3
 If you want to run the brain on your turtlebot3, export the brain for linux-arm32v7 and follow the deployment instructions. Note that if you have a turtlebot3 running a pi 4, you may need to export the brain for linux-arm64v8. On the robot, run `ros2 launch turtlebot3_bringup robot.launch.py` and `ros2 launch turtlebot3_bonsai policy_without_sim.launch.py`.
