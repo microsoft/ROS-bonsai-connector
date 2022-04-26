@@ -92,7 +92,7 @@ If you want to run the brain in the simulation loop:
 
    If you are using Linux, open a terminal and run the command:
 
-    `xhost +local:docker && docker container run --env-file=turtlebot3_bonsai/config/env.test --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" --net=host <image name>`
+    `xhost +local:docker && docker container run --env-file=turtlebot3_bonsai/config/env.test --env="QT_X11_NO_MITSHM=1" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" --net=host <image name>`
 
     Note that this is untested for MacOS.
 
