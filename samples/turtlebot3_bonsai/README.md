@@ -3,10 +3,10 @@ This sample provides a Dockerfile and associated code to train reinforecment lea
 
 ```mermaid
 flowchart LR
-    A[Verify Simulator] --> B[Build and Run Training Sim Locally]
-    A --> C[Build and Run Training Sim in the Cloud]
-    B --> D[Deploy RL Policy (Brain)]
-    C --> D
+    A[Verify Simulator]-->B[Build and Run Training Sim Locally]
+    A-->C[Build and Run Training Sim in the Cloud]
+    B-->D[Deploy RL Policy (Brain)]
+    C-->D
 ```
 
 # Getting Started
