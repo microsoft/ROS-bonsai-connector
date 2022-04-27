@@ -1,6 +1,14 @@
 # TURTLEBOT3 BONSAI
 This sample provides a Dockerfile and associated code to train reinforecment learning policies for Turtlebot3 using Microsoft Bonsai.
 
+```mermaid
+flowchart LR
+    A[Verify Simulator] --> B[Build and Run Training Sim Locally]
+    A --> C[Build and Run Training Sim in the Cloud]
+    B --> D[Deploy RL Policy (Brain)]
+    C --> D
+```
+
 # Getting Started
 ## Requirements
 * An Azure Subscription with owner permission.
@@ -45,10 +53,11 @@ In a command line shell (ex: powershell, bash):
 
 * navigate to the samples/ directory
 * `az login`
+* `az account set `
 * `az acr login -n <bonsai workspace name>`
 * `az acr build --image <image name> --registry <bonsai azure container registry name> --file turtlebot3_bonsai/Dockerfile .  --build-arg MODE=train --build-arg WORLD=<world>`
 * In the Bonsai UI, go to '+ Add sim' and select 'Other'
-* Add your <image name> to the path to the ACR image and name your sim.
+* Add your /<image name>/ to the path to the ACR image and name your sim.
 * Recommended settings - OS: Linux, Max Instance Count: 25, Cores: 2, Memory: 4GB
 
 You should now be able to link your brain to this simulator. Note that running this sim will significantly speed up training time at the cost of Azure spend.
@@ -99,6 +108,7 @@ If you want to run the brain in the simulation loop:
 ## Export Brain to Turtlebot3
 If you want to run the brain on your turtlebot3, export the brain for linux-arm32v7 and follow the deployment instructions. Note that if you have a turtlebot3 running a pi 4, you may need to export the brain for linux-arm64v8. On the robot, run `ros2 launch turtlebot3_bringup robot.launch.py` and `ros2 launch turtlebot3_bonsai policy_without_sim.launch.py`.
 
+To see hou
 # Advanced Usage
 If you are interested in editing the simulation or running it directly on your machine without a container, you will need a Linux build environment, the azure CLI, and ROS2 Foxy. It is highly recommended that you are familiar with developing and building ROS projects before proceeding.
 
