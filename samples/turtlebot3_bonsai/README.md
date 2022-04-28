@@ -9,15 +9,12 @@ flowchart TD
     A--Faster & More Expensive-->C[Set Up Managed Simulator]
 
 
-    C-->C1[Define Bonsai Brain]
-    C1-->C2[Train Bonsai Brain]
-    C2-->C3[Deploy Bonsai Brain]
-    C3-->C1
+    C-->D1[Define Bonsai Brain]
+    B-->D1[Define Bonsai Brain]
+    D1-->D2[Train Bonsai Brain]
+    D2-->D3[Deploy Bonsai Brain]
+    D3-->D1
 
-    B-->B1[Define Bonsai Brain]
-    B1-->B2[Train Bonsai Brain]
-    B2-->B3[Deploy Bonsai Brain]
-    B3-->B1
 ```
 
 Using an managed simulator over an unmanaged simulator significantly increases the time to train a Brain, but is more expensive to run.
