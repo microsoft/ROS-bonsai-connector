@@ -17,9 +17,7 @@ flowchart TD
 
 ```
 
-Using an managed simulator over an unmanaged simulator significantly increases the time to train a Brain, but is more expensive to run.
-
-Training the sample Brain provided using an unmanaged simulator can take 48+ hours depending on your machine. Training the same Brain on a managed simulator (using cloud compute) will take approximately 18 hours using the recommended settings. This time can be improved by using more powerful cloud compute, but note that this will result in higher Azure charges.
+Training the sample Brain provided using an unmanaged simulator can take 48+ hours. It uses your local machine to produce data for training, so this will depend on your hardware. Training the same Brain on a managed simulator (using cloud compute) will take approximately 18 hours using the suggested compute settings. This time can be improved by using more powerful cloud compute, but note that this will result in higher Azure charges.
 
 1. **Set Up Project**: [Requirements](#requirements)
 2. **Set Up Unmanaged Simulator**: [Building and Running the Training Simulator Locally](#building-and-running-the-training-simulator-locally)
