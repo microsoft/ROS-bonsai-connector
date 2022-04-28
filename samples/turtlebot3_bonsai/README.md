@@ -9,12 +9,12 @@ flowchart TD
     A-->C[Set Up Managed Simulator]
 
 
-    C-->C1[Define Bonsai Brain]
+    C--Slower & Inexpensive-->C1[Define Bonsai Brain]
     C1-->C2[Train Bonsai Brain]
     C2-->C3[Deploy Bonsai Brain]
     C3-->C1
 
-    B-->B1[Define Bonsai Brain]
+    B--Faster & More Expensive-->B1[Define Bonsai Brain]
     B1-->B2[Train Bonsai Brain]
     B2-->B3[Deploy Bonsai Brain]
     B3-->B1
@@ -24,12 +24,12 @@ Using an managed simulator over an unmanaged simulator significantly increases t
 
 Training the sample Brain provided using an unmanaged simulator can take 48+ hours depending on your machine. Training the same Brain on a managed simulator (using cloud compute) will take approximately 18 hours using the recommended settings. This time can be improved by using more powerful cloud compute, but note that this will result in higher Azure charges.
 
-**Set Up Project**: [Requirements](#requirements)
-**Set Up Unmanaged Simulator**: [Building and Running the Training Simulator Locally](#building-and-running-the-training-simulator-locally)
-**Set Up Managed Simulator**: [Building and Running the Training Simulator in the Cloud](#building-and-running-the-training-simulator-in-the-cloud)
-**Define Bonsai Brain**: [Training](#training)
-**Train Bonsai Brain**: [Training](#training)
-**Deploy Bonsai Brain To Simulation**: [Export Brain and Test With The Simulation](#export-brain-and-test-with-the-simulation)
+1. **Set Up Project**: [Requirements](#requirements)
+2. **Set Up Unmanaged Simulator**: [Building and Running the Training Simulator Locally](#building-and-running-the-training-simulator-locally)
+3. **Set Up Managed Simulator**: [Building and Running the Training Simulator in the Cloud](#building-and-running-the-training-simulator-in-the-cloud)
+4. **Define Bonsai Brain**: [Training](#training)
+5. **Train Bonsai Brain**: [Training](#training)
+6. **Deploy Bonsai Brain To Simulation**: [Export Brain and Test With The Simulation](#export-brain-and-test-with-the-simulation)
 
 If you are interested in deploying the Brain to a physical Turtlebot3, see [Export Brain to Turtlebot3](#export-brain-to-turtlebot3).
 
