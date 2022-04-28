@@ -5,16 +5,16 @@ There following diagram lays out the development flow for this sample project.
 
 ```mermaid
 flowchart TD
-    A[Set Up Project]-->B[Set Up Unmanaged Simulator]
-    A-->C[Set Up Managed Simulator]
+    A[Set Up Project]--Slower & Inexpensive-->B[Set Up Unmanaged Simulator]
+    A--Faster & More Expensive-->C[Set Up Managed Simulator]
 
 
-    C--Slower & Inexpensive-->C1[Define Bonsai Brain]
+    C-->C1[Define Bonsai Brain]
     C1-->C2[Train Bonsai Brain]
     C2-->C3[Deploy Bonsai Brain]
     C3-->C1
 
-    B--Faster & More Expensive-->B1[Define Bonsai Brain]
+    B-->B1[Define Bonsai Brain]
     B1-->B2[Train Bonsai Brain]
     B2-->B3[Deploy Bonsai Brain]
     B3-->B1
