@@ -7,10 +7,17 @@ There following diagram lays out the development flow for this sample project.
 flowchart TD
     A[Set Up Project]-->B[Set Up Unmanaged Simulator]
     A-->C[Set Up Managed Simulator]
-    C-->D[Define Bonsai Brain]
-    D-->E[Train Bonsai Brain]
-    E-->F[Deploy Bonsai Brain]
-    F-->C
+
+
+    C-->C1[Define Bonsai Brain]
+    C1-->C2[Train Bonsai Brain]
+    C2-->C3[Deploy Bonsai Brain]
+    C3-->C1
+
+    B-->B1[Define Bonsai Brain]
+    B1-->B2[Train Bonsai Brain]
+    B2-->B3[Deploy Bonsai Brain]
+    B3-->B1
 ```
 
 Using an managed simulator over an unmanaged simulator significantly increases the time to train a Brain, but is more expensive to run.
