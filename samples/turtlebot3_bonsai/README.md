@@ -112,12 +112,10 @@ If you want to run the brain in the simulation loop:
 4. Create an `env.test` file in `turtlebot3_bonsai/config/` directory of the project, copying the contents of the **env.test_example** file.
 5. In the `env.test` file, provide the name of the Bonsai policy. If you used the sample inkling, the name is policy name is **AvoidObstacles**. If you are on Windows, set DISPLAY=YOUR_LOCAL_IP:0.0. If you are on Linux, leave DISPLAY blank.
 
-   If you are using windows, you can find your local IP address by opening a command prompt and typing `ipconfig`.
+   On windows, you can find your IP address by opening a command prompt and typing `ipconfig`.
 
-   Look for an address that looks like 192.168.X.X.
-
-6. If you are using Windows, you will need to install an X-server such as [VcXsrv](https://sourceforge.net/projects/vcxsrv/) to forward the simulation gui to. Once installed, run XLaunch from the start menu with all extra settings selected.
-7. Open Powershell and run the command:
+6. If you are using Windows, you will need to install an X-server such as [VcXsrv](https://sourceforge.net/projects/vcxsrv/) to forward the simulation gui to. If using VcXsrv, run XLaunch from the start menu with all defaults plus *Disable access control*.
+7. If you are using Windows, open Powershell and run the command:
 
     `docker container run --env-file=turtlebot3_bonsai/config/env.test --net=host <image name>`
 
