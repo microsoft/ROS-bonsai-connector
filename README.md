@@ -1,7 +1,8 @@
 # ROS-bonsai-connector
 This project assumes that the user has a Robot Operating System (ROS) based simulation and are looking to use it to train a reinforcement learning policy. It is recommended that the user have a basic understanding of ROS or ROS2 before proceeding with the **Integrating Your Simulation** section.
 
-An a fully Bonsai-integrated Turtlebot3 simulation has been provided as an example. See the following section for a link to its README.
+A fully Bonsai-integrated Turtlebot3 simulation has been provided as an example. See the [Turtlebot3 Sample](#turtlebot3-sample) section.
+
 # Turtlebot3 Sample
 If you are here for the Turtlebot3 Simulator for Bonsai, please go to the [Turtlebot3 Bonsai README](./samples/turtlebot3_bonsai/README.md)
 
