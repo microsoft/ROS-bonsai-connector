@@ -52,3 +52,5 @@ CATKIN_IGNORE
 
 # configuration for Bonsai workspace
 /samples/turtlebot3_bonsai/config/env
+/samples/turtlebot3_bonsai/config/env.test
+/samples/turtlebot3_bonsai/config/env.train
