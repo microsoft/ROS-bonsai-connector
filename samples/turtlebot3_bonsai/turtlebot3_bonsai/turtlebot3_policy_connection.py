@@ -7,7 +7,7 @@ import os
 import time
 
 from turtlebot3_bonsai.turtlebot3_bonsai_connection import TurtleBot3BonsaiConnection
-#from gazebo_msgs.srv import SpawnEntity
+from gazebo_msgs.srv import SpawnEntity
 from ament_index_python.packages import get_package_share_directory
 import rclpy
 
@@ -15,7 +15,7 @@ NODE_NAME = "turtlebot3_policy_connection"
 ROBOT_NAME = "turtlebot"
 
 class PolicyConnection(TurtleBot3BonsaiConnection):
-    def __init__(self, policy_url, concept_name, node_name=NODE_NAME, sim=False, pose_x=0.0, pose_y=0.0, pose_z=0.0):
+    def __init__(self, policy_url, concept_name, pose_x=0.0, pose_y=0.0, pose_z=0.0, world=None, sim=False, node_name=NODE_NAME):
         super().__init__(node_name)
 
         # General variables
@@ -24,7 +24,7 @@ class PolicyConnection(TurtleBot3BonsaiConnection):
         self.headers = {
             "Content-Type": "application/json"
         }
-        
+
         # Set a random UUID for the client.
         # The same client ID will be used for every call
         self.myClientId = str(uuid.uuid4())
@@ -42,6 +42,9 @@ class PolicyConnection(TurtleBot3BonsaiConnection):
             self.sdf = os.path.join(
                 get_package_share_directory("turtlebot3_gazebo"), "models",
                 "turtlebot3_burger", "model.sdf")
+
+            self.get_logger().info("Spawning turtlebot3 at [{}, {}, {}] in world '{}'".
+                                    format(pose_x, pose_y, pose_z, world))
 
             spawn = SpawnEntity.Request()
             spawn.xml = open(self.sdf, 'r').read()
@@ -140,7 +143,7 @@ class PolicyConnection(TurtleBot3BonsaiConnection):
         self.cmd_vel_pub.publish(self.cmd_vel_data)
 
     def run(self):
-        while True: 
+        while True:
             rclpy.spin_once(self)
             self.command_with_policy()
             time.sleep(0.1)
