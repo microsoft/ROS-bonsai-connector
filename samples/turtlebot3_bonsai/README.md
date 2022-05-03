@@ -77,7 +77,7 @@ In a command line shell (ex: powershell, bash):
 
 * navigate to the samples/ directory
 * `az login`
-* `az account set <subscription name or ID>`
+* `az account set -s <subscription name or ID>`
 * `az acr login -n <bonsai workspace name>`
 * `az acr build --image <image name> --registry <bonsai azure container registry name> --file turtlebot3_bonsai/Dockerfile .  --build-arg MODE=train --build-arg WORLD=<world>`
 
