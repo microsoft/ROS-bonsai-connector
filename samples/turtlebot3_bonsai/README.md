@@ -41,7 +41,7 @@ Note: if you are unsure of what your ACR name is, it is most likely the same nam
 
 Then clone the repository with:
 
-     `git clone --recurse-submodules git@github.com:microsoft/ROS-bonsai-connector.git`
+    `git clone --recurse-submodules git@github.com:microsoft/ROS-bonsai-connector.git`
 
 ## Building and Running the Training Simulator Locally
 
@@ -77,9 +77,12 @@ In a command line shell (ex: powershell, bash):
 
 * navigate to the samples/ directory
 * `az login`
-* `az account set `
+* `az account set <subscription name or ID>`
 * `az acr login -n <bonsai workspace name>`
 * `az acr build --image <image name> --registry <bonsai azure container registry name> --file turtlebot3_bonsai/Dockerfile .  --build-arg MODE=train --build-arg WORLD=<world>`
+
+    If this command fails, try adding `--resource-group bonsai-rg-<workspace name>-<uuid>`. You can find this resource group within your Azure subscription - it was created along with your workspace. Otherwise, contact your subscription administrator to verify that you have adequate permissions.
+
 * In the Bonsai UI, go to '+ Add sim' and select 'Other'
 * Add your \<image name\> to the path to the ACR image and name your sim.
 * Recommended settings - OS: Linux, Max Instance Count: 25, Cores: 2, Memory: 4GB
