@@ -45,7 +45,7 @@ Then clone the repository with:
 
 ## Building and Running the Training Simulator Locally
 
-1. In a command line shell (ex: PowerShell, bash), navigate to the `samples/` directory and run the following command:
+1. In a command line shell (ex: PowerShell, bash), navigate to the `samples/` directory with `cd ROS-bonsai-connector\samples\` and run the following command:
 
     `docker image build -f turtlebot3_bonsai/Dockerfile . -t <image name> --build-arg MODE=train --build-arg WORLD=<world>`
 
