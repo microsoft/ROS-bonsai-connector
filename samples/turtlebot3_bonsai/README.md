@@ -41,7 +41,7 @@ Note: if you are unsure of what your ACR name is, it is most likely the same nam
 
 Then clone the repository with:
 
-    `git clone --recurse-submodules git@github.com:microsoft/ROS-bonsai-connector.git`
+    git clone --recurse-submodules https://github.com/microsoft/ROS-bonsai-connector.git
 
 ## Building and Running the Training Simulator Locally
 
